@@ -23,7 +23,7 @@ const menu = () => {
     type: "list",
     choices: [
       "View all departments",
-      "View all job positions",
+      "View all positions",
       "View all employees",
       "Add a department",
       "Add a job position",
@@ -32,14 +32,14 @@ const menu = () => {
       "Exit",
     ],
   })
-  // The switch statement will execute the statement until a break or the end of the statement is executed.
+    // The switch statement will execute the statement until a break or the end of the statement is executed.
     .then(response => {
       switch (response.menu) {
         case "View all departments":
           viewAllDepartments();
           break;
-        case "View all job positions":
-          viewJobPositions();
+        case "View all positions":
+          viewPositions();
           break;
         case "View all employees":
           viewAllEmployees();
@@ -47,8 +47,8 @@ const menu = () => {
         case "Add a department":
           AddDepartment();
           break;
-        case "Add a job position":
-          AddJobPosition();
+        case "Add a position":
+          AddPosition();
           break;
         case "Add an employee":
           AddEmployee();
@@ -56,12 +56,18 @@ const menu = () => {
         case "Add a department":
           AddDepartment();
           break;
-        case "Update Employee Job Position":
+        case "Update Employee Position":
           UpdateEmployee();
           break;
+        case "Exit":
+          db.end()
+          break;
         default:
-          console.log('Have a nice day MR.Fury!')
-          process.kill(process.pid, 'SIGINT');
+          db.end();
       }
-    })
+    });
+};
+
+const viewAllDepartments = () => {
+  db.query('SELECT * FROM')
 }
