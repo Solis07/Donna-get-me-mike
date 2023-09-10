@@ -106,9 +106,41 @@ const addDepartment = () => {
         [answer.department],
         function (err, res) {
           if (err) throw err;
-          console.log('Department has been added successfully!');
+          console.log('Department has been successfully added!');
           menu();
         });
+    });
+};
+
+const addPosition = () => {
+  inquirer
+    .prompt([
+      {
+        name: "title",
+        type: "input",
+        message: "Enter in a job title.",
+      },
+      {
+        name: "salary",
+        type: "input",
+        message: "Enter in a Salary.",
+      },
+      {
+        name: "departmentId",
+        type: "input",
+        message: "Enter in a department ID number",
+      },
+    ])
+    .then((answer) => {
+      db.query(
+        "INSERT INTO position (title, salary, department_id) VALUES (?, ?, ?)",
+        [answer.title, answer.salary, answer.departmentId],
+        function (err, res) {
+          if (err) throw err;
+          console.log("Position has been successfully added!");
+          menu();
+        }
+      );
     });
 };
 
