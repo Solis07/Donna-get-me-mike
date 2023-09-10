@@ -29,14 +29,39 @@ const menu = () => {
       "Add a job position",
       "Add an employee",
       "Update employee job position",
-      "Back to menu",
+      "Exit",
     ],
   })
+  // The switch statement will execute the statement until a break or the end of the statement is executed.
     .then(response => {
       switch (response.menu) {
-      case "View all departments":
-        viewDepartments();
-        break;
+        case "View all departments":
+          viewAllDepartments();
+          break;
+        case "View all job positions":
+          viewJobPositions();
+          break;
+        case "View all employees":
+          viewAllEmployees();
+          break;
+        case "Add a department":
+          AddDepartment();
+          break;
+        case "Add a job position":
+          AddJobPosition();
+          break;
+        case "Add an employee":
+          AddEmployee();
+          break;
+        case "Add a department":
+          AddDepartment();
+          break;
+        case "Update Employee Job Position":
+          UpdateEmployee();
+          break;
+        default:
+          console.log('Have a nice day MR.Fury!')
+          process.kill(process.pid, 'SIGINT');
       }
     })
 }
