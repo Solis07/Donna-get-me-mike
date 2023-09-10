@@ -1,16 +1,17 @@
 const inquirer = require("inquirer");
 // Import and require mysql2
 const mysql = require("mysql2");
+require('dotenv').config();
 
 // Connect to database
 const db = mysql.createConnection(
   {
     host: "localhost",
     // MySQL username,
-    user: "root",
+    user: process.env.DB_USER,
     // MySQL password
-    password: "Tech2015!",
-    database: "employee_tracker_db",
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
   },
   console.log(`Connected to the employee_tracker_db database.`)
 );
@@ -90,7 +91,7 @@ const viewAllPositions = () => {
 // Allows the user to VIEW all employees
 const viewAllEmployees = () => {
   db.query(
-    "SELECT employee.id, first_name, last_name, title, salary, department_name, manager_id FROM ((department JOIN position ON department.id = position.department_id) JOIN employee ON position.id = employee.position.id);",
+    "SELECT employee.id, first_name, last_name, title, salary, department_name, manager_id FROM ((department JOIN role ON department.id = role.department_id) JOIN employee ON role.id = employee.role.id);",
     function (err, res) {
       if (err) throw err;
       console.log(res);
@@ -144,7 +145,7 @@ const addPosition = () => {
     ])
     .then((answer) => {
       db.query(
-        "INSERT INTO position (title, salary, department_id) VALUES (?, ?, ?)",
+        "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
         [answer.title, answer.salary, answer.departmentId],
         function (err, res) {
           if (err) throw err;
