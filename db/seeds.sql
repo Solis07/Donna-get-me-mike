@@ -1,4 +1,4 @@
-INSERT INTO department (name)
+INSERT INTO department (department_name)
 VALUES
 ('Stark Tower'),
 ('S.H.I.E.L.D Helicarrier'),
