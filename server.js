@@ -16,3 +16,20 @@ const db = mysql.createConnection(
 );
 
 
+const menu = () => {
+  inquirer.prompt({
+    message: "What would you like to do today?",
+    name: "menu",
+    type: "list",
+    choices: [
+      "View all departments",
+      "View all job positions",
+      "View all employees",
+      "Add a department",
+      "Add a job position",
+      "Add an employee",
+      "Update employee job position",
+      "Back to menu",
+    ],
+  })
+}
