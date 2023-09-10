@@ -32,4 +32,11 @@ const menu = () => {
       "Back to menu",
     ],
   })
+    .then(response => {
+      switch (response.menu) {
+      case "View all departments":
+        viewDepartments();
+        break;
+      }
+    })
 }
