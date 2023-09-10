@@ -39,7 +39,7 @@ const menu = () => {
           viewAllDepartments();
           break;
         case "View all positions":
-          viewPositions();
+          viewAllPositions();
           break;
         case "View all employees":
           viewAllEmployees();
@@ -68,6 +68,27 @@ const menu = () => {
     });
 };
 
+//Query database
 const viewAllDepartments = () => {
-  db.query('SELECT * FROM')
-}
+  db.query('SELECT * FROM department', function (err, res) {
+    if (err) throw err;
+    console.log(results);
+    menu();
+  });
+};
+
+const viewAllPositions = () => {
+  db.query("SELECT * FROM position", function (err, res) {
+    if (err) throw err;
+    console.log(results);
+    menu();
+  });
+};
+const viewAllEmployees  = () => {
+  db.query("SELECT employee.id, first_name, last_name, title, salary, department_name, manager_id FROM ((department JOIN position ON department.id = position.department_id) JOIN employee ON position.id = employee.position.id);",
+    function (err, res) {
+    if (err) throw err;
+    console.log(results);
+    menu();
+  });
+};
