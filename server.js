@@ -45,19 +45,19 @@ const menu = () => {
           viewAllEmployees();
           break;
         case "Add a department":
-          AddDepartment();
+          addDepartment();
           break;
         case "Add a position":
-          AddPosition();
+          addPosition();
           break;
         case "Add an employee":
-          AddEmployee();
+          addEmployee();
           break;
         case "Add a department":
-          AddDepartment();
+          addDepartment();
           break;
         case "Update Employee Position":
-          UpdateEmployee();
+          updateEmployee();
           break;
         case "Exit":
           db.end()
@@ -72,7 +72,7 @@ const menu = () => {
 const viewAllDepartments = () => {
   db.query('SELECT * FROM department', function (err, res) {
     if (err) throw err;
-    console.log(results);
+    console.log(res);
     menu();
   });
 };
@@ -80,15 +80,35 @@ const viewAllDepartments = () => {
 const viewAllPositions = () => {
   db.query("SELECT * FROM position", function (err, res) {
     if (err) throw err;
-    console.log(results);
+    console.log(res);
     menu();
   });
 };
-const viewAllEmployees  = () => {
+const viewAllEmployees = () => {
   db.query("SELECT employee.id, first_name, last_name, title, salary, department_name, manager_id FROM ((department JOIN position ON department.id = position.department_id) JOIN employee ON position.id = employee.position.id);",
     function (err, res) {
     if (err) throw err;
-    console.log(results);
+    console.log(res);
     menu();
   });
 };
+
+const addDepartment = () => {
+  inquirer.prompt([
+    {
+      name: 'department',
+      type: 'input',
+      message: 'Department name.'
+    }
+  ])
+    .then(answer => {
+      db.query("INSERT INTO department(department_name) VALUES (?)",
+        [answer.department],
+        function (err, res) {
+          if (err) throw err;
+          console.log('Department has been added successfully!');
+          menu();
+        });
+    });
+};
+
