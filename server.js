@@ -48,7 +48,7 @@ const menu = () => {
         case "Add a department":
           addDepartment();
           break;
-        case "Add a position":
+        case "Add a job position":
           addPosition();
           break;
         case "Add an employee":
@@ -57,7 +57,7 @@ const menu = () => {
         case "Add a department":
           addDepartment();
           break;
-        case "Update Employee Position":
+        case "Update employee job position":
           updateEmployee();
           break;
         case "Exit":
@@ -74,16 +74,16 @@ const menu = () => {
 const viewAllDepartments = () => {
   db.query("SELECT * FROM department", function (err, res) {
     if (err) throw err;
-    console.log(res);
+    console.table(res);
     menu();
   });
 };
 
 // Allows the user to VIEW all positions
 const viewAllPositions = () => {
-  db.query("SELECT * FROM position", function (err, res) {
+  db.query("SELECT * FROM role LEFT JOIN department ON role.department_id = department.id", function (err, res) {
     if (err) throw err;
-    console.log(res);
+    console.table(res);
     menu();
   });
 };
@@ -91,10 +91,10 @@ const viewAllPositions = () => {
 // Allows the user to VIEW all employees
 const viewAllEmployees = () => {
   db.query(
-    "SELECT employee.id, first_name, last_name, title, salary, department_name, manager_id FROM ((department JOIN role ON department.id = role.department_id) JOIN employee ON role.id = employee.role.id);",
+    "SELECT employee.id, first_name, last_name, title, salary, department_name, manager_id FROM ((department JOIN role ON department.id = role.department_id) JOIN employee ON role.id = employee.role_id);",
     function (err, res) {
       if (err) throw err;
-      console.log(res);
+      console.table(res);
       menu();
     }
   );
@@ -124,7 +124,13 @@ const addDepartment = () => {
 };
 
 // Allows the user to ADD an a position
-const addPosition = () => {
+const addPosition = async () => {
+  const [allDepartmentData] = await db.promise().query("SELECT * FROM department")
+  const departmentChoices = allDepartmentData.map(({ id, department_name }) => ({
+    name: department_name,
+    value: id
+  }))
+  console.log(allDepartmentData)
   inquirer
     .prompt([
       {
@@ -139,8 +145,9 @@ const addPosition = () => {
       },
       {
         name: "departmentId",
-        type: "input",
-        message: "Enter in a department ID number",
+        type: "list",
+        message: "Choose a department",
+        choices: departmentChoices
       },
     ])
     .then((answer) => {
@@ -195,24 +202,36 @@ const addEmployee = () => {
 };
 
 // Allows the user to UPDATE an employee's id
-const updateEmployee = () => {
+const updateEmployee = async () => {
+  const [allEmployeeData] = await db.promise().query("SELECT * FROM employee");
+  const employeeChoices = allEmployeeData.map(({ id, first_name, last_name }) => ({
+    name: first_name + " " + last_name,
+    value: id
+  }))
+  const [allRoleData] = await db.promise().query("SELECT * FROM role");
+  const roleChoices = allRoleData.map(({ id, title }) => ({
+    name: title,
+    value: id
+  }))
   inquirer
     .prompt([
       {
         name: "id",
-        type: "input",
-        message: "Please enter in new employees ID number.",
+        type: "list",
+        message: "Please choose an employee.",
+        choices: employeeChoices
       },
       {
         name: "roleId",
-        type: "input",
-        message: "Please enter in new ID number.",
+        type: "list",
+        message: "Please choose a new role for employee.",
+        choices: roleChoices
       },
     ])
     .then((answer) => {
       db.query(
-        "UPDATE employee SET position_id=? WHERE id=?"[
-          (answer.id, answer.roleId)
+        "UPDATE employee SET role_id= ? WHERE id= ?",[
+          answer.roleId, answer.id
         ],
         function (err, res) {
           if (err) throw err;
@@ -222,3 +241,4 @@ const updateEmployee = () => {
       );
     });
 };
+menu ()
