@@ -8,7 +8,7 @@ Prompted through the terminal with a series of questions that will be seen throu
 
 ## Screenshot
 
-![Employee Tracker]('./assets/img/Challenge-screenshot.jpeg')
+![Employee Tracker](./assets/img/Challenge-screenshot.jpeg)
 
 ## Video Link
 
