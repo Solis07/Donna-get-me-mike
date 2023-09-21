@@ -130,7 +130,7 @@ const addPosition = async () => {
     name: department_name,
     value: id
   }))
-  console.log(allDepartmentData)
+  console.table(allDepartmentData)
   inquirer
     .prompt([
       {
@@ -190,7 +190,7 @@ const addEmployee = () => {
     ])
     .then((answer) => {
       db.query(
-        "INSERT INTO employee (first_name, last_name, role_id, manger_id) VALUES (?, ?, ?, ?)",
+        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
         [answer.firstName, answer.lastName, answer.roleId, answer.managerId],
         function (err, res) {
           if (err) throw err;
