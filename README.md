@@ -8,9 +8,9 @@ Prompted through the terminal with a series of questions that will be seen throu
 
 ## Screenshot
 
-![Employee Tracker]()
+![Employee Tracker]('./assets/img/Challenge-screenshot.jpeg')
 
 ## Video Link
 
-[Video Walkthrough] (https://youtu.be/zywy2Bv1sK8)
+[Video Walkthrough](https://youtu.be/zywy2Bv1sK8)
 
